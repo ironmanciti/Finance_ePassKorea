@@ -1,5 +1,6 @@
-﻿# Finance ePassKorea 프로젝트 의존성
+# Finance ePassKorea 프로젝트 의존성
 # 실제 코드에서 사용하는 라이브러리만 포함
+# 생성일: 자동 생성 (pip freeze 기반)
 
 beautifulsoup4==4.12.3
 koreanize-matplotlib==0.1.1
@@ -15,4 +16,3 @@ python-dotenv==1.0.1
 reportlab==4.4.7
 requests==2.32.3
 streamlit==1.41.1
-mplfinance==0.12.10b0

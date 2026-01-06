@@ -327,109 +327,109 @@ st.set_page_config(
 #     with col1:
 #         st.metric(label="종목", value=stock_name)
     
-#     with col2:
-#         st.metric(
-#             label="현재가",
-#             value=f"{current_price:,.0f}원",
-#             delta=f"{price_change:+,.0f} ({price_change_pct:+.2f}%)"
-#         )
+    # with col2:
+    #     st.metric(
+    #         label="현재가",
+    #         value=f"{current_price:,.0f}원",
+    #         delta=f"{price_change:+,.0f} ({price_change_pct:+.2f}%)"
+    #     )
     
-#     with col3:
-#         st.metric(
-#             label="거래량",
-#             value=f"{df['Volume'].iloc[-1]:,.0f}"
-#         )
+    # with col3:
+    #     st.metric(
+    #         label="거래량",
+    #         value=f"{df['Volume'].iloc[-1]:,.0f}"
+    #     )
     
-#     with col4:
-#         period_return = ((df['Close'].iloc[-1] / df['Close'].iloc[0]) - 1) * 100
-#         st.metric(
-#             label="기간 수익률",
-#             value=f"{period_return:+.2f}%"
-#         )
+    # with col4:
+    #     period_return = ((df['Close'].iloc[-1] / df['Close'].iloc[0]) - 1) * 100
+    #     st.metric(
+    #         label="기간 수익률",
+    #         value=f"{period_return:+.2f}%"
+    #     )
     
-#     st.markdown("---")
+    # st.markdown("---")
     
-#     # 탭 구성
-#     tab_chart, tab_data, tab_analysis = st.tabs(["차트", "데이터", "분석"])
+    # # 탭 구성
+    # tab_chart, tab_data, tab_analysis = st.tabs(["차트", "데이터", "분석"])
     
-#     with tab_chart:
-#         st.subheader("주가 차트")
+    # with tab_chart:
+    #     st.subheader("주가 차트")
         
-#         if chart_type == "캔들차트":
-#             fig = create_stock_chart_with_volume(
-#                 df, 
-#                 f"{stock_name} ({stock_code})",
-#                 ma_periods=ma_periods if show_ma else None,
-#                 show_volume=show_volume
-#             )
-#         else:
-#             # 라인차트
-#             fig = go.Figure()
-#             fig.add_trace(go.Scatter(
-#                 x=df['Date'], y=df['Close'],
-#                 mode='lines', name='종가',
-#                 line=dict(color='blue', width=2)
-#             ))
-#             if show_ma:
-#                 add_moving_averages(fig, df.copy(), ma_periods)
-#             fig.update_layout(
-#                 title=f"{stock_name} ({stock_code})",
-#                 height=500,
-#                 template='plotly_white'
-#             )
+    #     if chart_type == "캔들차트":
+    #         fig = create_stock_chart_with_volume(
+    #             df, 
+    #             f"{stock_name} ({stock_code})",
+    #             ma_periods=ma_periods if show_ma else None,
+    #             show_volume=show_volume
+    #         )
+    #     else:
+    #         # 라인차트
+    #         fig = go.Figure()
+    #         fig.add_trace(go.Scatter(
+    #             x=df['Date'], y=df['Close'],
+    #             mode='lines', name='종가',
+    #             line=dict(color='blue', width=2)
+    #         ))
+    #         if show_ma:
+    #             add_moving_averages(fig, df.copy(), ma_periods)
+    #         fig.update_layout(
+    #             title=f"{stock_name} ({stock_code})",
+    #             height=500,
+    #             template='plotly_white'
+    #         )
         
-#         st.plotly_chart(fig, use_container_width=True)
+    #     st.plotly_chart(fig, use_container_width=True)
     
-#     with tab_data:
-#         st.subheader("주가 데이터")
+    # with tab_data:
+    #     st.subheader("주가 데이터")
         
-#         # 데이터 표시 (최신 순)
-#         display_df = df.copy()
-#         display_df = display_df.sort_values('Date', ascending=False)
-#         display_df['Date'] = display_df['Date'].dt.strftime('%Y-%m-%d')
+    #     # 데이터 표시 (최신 순)
+    #     display_df = df.copy()
+    #     display_df = display_df.sort_values('Date', ascending=False)
+    #     display_df['Date'] = display_df['Date'].dt.strftime('%Y-%m-%d')
         
-#         st.dataframe(display_df, use_container_width=True)
+    #     st.dataframe(display_df, use_container_width=True)
         
-#         # 다운로드 버튼
-#         csv = display_df.to_csv(index=False, encoding='utf-8-sig')
-#         st.download_button(
-#             label="CSV 다운로드",
-#             data=csv,
-#             file_name=f"{stock_code}_{start_date}_{end_date}.csv",
-#             mime="text/csv"
-#         )
+    #     # 다운로드 버튼
+    #     csv = display_df.to_csv(index=False, encoding='utf-8-sig')
+    #     st.download_button(
+    #         label="CSV 다운로드",
+    #         data=csv,
+    #         file_name=f"{stock_code}_{start_date}_{end_date}.csv",
+    #         mime="text/csv"
+    #     )
     
-#     with tab_analysis:
-#         st.subheader("기술적 분석")
+    # with tab_analysis:
+    #     st.subheader("기술적 분석")
         
-#         # 기본 통계
-#         col1, col2 = st.columns(2)
+    #     # 기본 통계
+    #     col1, col2 = st.columns(2)
         
-#         with col1:
-#             st.write("**기간 통계**")
-#             stats = pd.DataFrame({
-#                 '항목': ['시작가', '최고가', '최저가', '종가', '평균가'],
-#                 '값': [
-#                     f"{df['Close'].iloc[0]:,.0f}원",
-#                     f"{df['High'].max():,.0f}원",
-#                     f"{df['Low'].min():,.0f}원",
-#                     f"{df['Close'].iloc[-1]:,.0f}원",
-#                     f"{df['Close'].mean():,.0f}원"
-#                 ]
-#             })
-#             st.table(stats)
+    #     with col1:
+    #         st.write("**기간 통계**")
+    #         stats = pd.DataFrame({
+    #             '항목': ['시작가', '최고가', '최저가', '종가', '평균가'],
+    #             '값': [
+    #                 f"{df['Close'].iloc[0]:,.0f}원",
+    #                 f"{df['High'].max():,.0f}원",
+    #                 f"{df['Low'].min():,.0f}원",
+    #                 f"{df['Close'].iloc[-1]:,.0f}원",
+    #                 f"{df['Close'].mean():,.0f}원"
+    #             ]
+    #         })
+    #         st.table(stats)
         
-#         with col2:
-#             st.write("**거래량 통계**")
-#             vol_stats = pd.DataFrame({
-#                 '항목': ['평균 거래량', '최대 거래량', '최소 거래량'],
-#                 '값': [
-#                     f"{df['Volume'].mean():,.0f}",
-#                     f"{df['Volume'].max():,.0f}",
-#                     f"{df['Volume'].min():,.0f}"
-#                 ]
-#             })
-#             st.table(vol_stats)
+    #     with col2:
+    #         st.write("**거래량 통계**")
+    #         vol_stats = pd.DataFrame({
+    #             '항목': ['평균 거래량', '최대 거래량', '최소 거래량'],
+    #             '값': [
+    #                 f"{df['Volume'].mean():,.0f}",
+    #                 f"{df['Volume'].max():,.0f}",
+    #                 f"{df['Volume'].min():,.0f}"
+    #             ]
+    #         })
+    #         st.table(vol_stats)
 
 # else:
 #     st.warning("데이터를 불러올 수 없습니다. 종목코드와 기간을 확인해주세요.")
