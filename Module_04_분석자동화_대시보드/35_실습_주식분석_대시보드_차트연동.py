@@ -16,20 +16,20 @@
 # 실행 방법:
 #     streamlit run 35_실습_주식분석_대시보드_차트연동.py
 
-import streamlit as st
-import FinanceDataReader as fdr
-import pandas as pd
-from datetime import date, timedelta
-import plotly.graph_objects as go
-from plotly.subplots import make_subplots
+# import streamlit as st
+# import FinanceDataReader as fdr
+# import pandas as pd
+# from datetime import date, timedelta
+# import plotly.graph_objects as go
+# from plotly.subplots import make_subplots
 
-# ============================================
-# 페이지 설정
-# ============================================
-st.set_page_config(
-    page_title="주식 분석 대시보드",
-    layout="wide"
-)
+# # ============================================
+# # 페이지 설정
+# # ============================================
+# st.set_page_config(
+#     page_title="주식 분석 대시보드",
+#     layout="wide"
+# )
 
 # # ============================================
 # # 1. 데이터 로드 함수
@@ -84,7 +84,6 @@ st.set_page_config(
 #         st.warning(f"종목명 조회 실패 ({stock_code}): {e}")
 #         return stock_code
 
-
 # # ============================================
 # # 2. 차트 생성 함수
 # # ============================================
@@ -105,22 +104,21 @@ st.set_page_config(
 #         high=df['High'],
 #         low=df['Low'],
 #         close=df['Close'],
-#         name='주가',
+#         name='주가',         # 범례에 표시될 이름
 #         increasing_line_color='red',    # 상승: 빨간색
 #         decreasing_line_color='blue'    # 하락: 파란색
 #     )])
     
 #     fig.update_layout(
-#         title=title,
+#         title=title,           # 차트 제목
 #         xaxis_title='날짜',
 #         yaxis_title='주가 (원)',
-#         height=500,
-#         xaxis_rangeslider_visible=False,
-#         template='plotly_white'
+#         height=500,            # 차트 높이
+#         xaxis_rangeslider_visible=False,  # 하단 슬라이더 숨김
+#         template='plotly_white'            # 템플릿 설정
 #     )
     
 #     return fig
-
 
 # def add_moving_averages(fig, df: pd.DataFrame, periods: list = [20, 60]):
 #     """
@@ -131,22 +129,22 @@ st.set_page_config(
 #         df: Date, Close 컬럼 필요
 #         periods: 이동평균 기간 리스트
 #     """
+#     # 여러 개의 이동평균을 추가해도 색상이 겹치지 않도록 순환 사용
 #     colors = ['orange', 'purple', 'green', 'brown', 'pink']
     
 #     for i, period in enumerate(periods):
-#         ma_col = f'MA{period}'
+#         ma_col = f'MA{period}'    # 이동평균 컬럼명 생성 (예: MA20, MA60)
 #         df[ma_col] = df['Close'].rolling(window=period).mean()
         
 #         fig.add_trace(go.Scatter(
 #             x=df['Date'],
-#             y=df[ma_col],
-#             mode='lines',
+#             y=df[ma_col],       # Y축: 이동평균 값
+#             mode='lines',       # 라인 차트 표시
 #             name=f'MA{period}',
-#             line=dict(color=colors[i % len(colors)], width=1)
+#             line=dict(color=colors[i % len(colors)], width=1)  # 선 색상과 너비 설정
 #         ))
     
 #     return fig
-
 
 # def create_stock_chart_with_volume(df: pd.DataFrame, title: str, 
 #                                     ma_periods: list = None,
@@ -160,14 +158,17 @@ st.set_page_config(
 #         ma_periods: 이동평균 기간 리스트
 #         show_volume: 거래량 표시 여부
 #     """
+#     # 거래량 표시 여부에 따라 서브플롯 행(row) 개수 결정
 #     rows = 2 if show_volume else 1
+#     # 각 행의 높이 비율 설정
 #     row_heights = [0.7, 0.3] if show_volume else [1]
     
 #     fig = make_subplots(
-#         rows=rows, cols=1,
-#         shared_xaxes=True,
-#         vertical_spacing=0.03,
-#         row_heights=row_heights
+#         rows=rows,             # 서브플롯 행 개수
+#         cols=1,                # 열은 1개 (세로 배치)
+#         shared_xaxes=True,     # 모든 서브플롯에서 X축 공유
+#         vertical_spacing=0.03, # 서브플롯 간 간격
+#         row_heights=row_heights # 각 행의 높이 비율
 #     )
     
 #     # 캔들차트
@@ -180,36 +181,40 @@ st.set_page_config(
 #         name='주가',
 #         increasing_line_color='red',
 #         decreasing_line_color='blue'
-#     ), row=1, col=1)
+#     ), row=1, col=1)  # 주가 차트를 첫 번째 행(row=1)의 첫 번째 열(col=1)에 추가
     
 #     # 이동평균선
 #     if ma_periods:
+#         # 이동평균선 색상 목록 
 #         colors = ['orange', 'purple', 'green', 'brown']
 #         for i, period in enumerate(ma_periods):
 #             ma = df['Close'].rolling(window=period).mean()
 #             fig.add_trace(go.Scatter(
-#                 x=df['Date'], y=ma,
-#                 mode='lines', name=f'MA{period}',
-#                 line=dict(color=colors[i % len(colors)], width=1)
-#             ), row=1, col=1)
+#                 x=df['Date'], 
+#                 y=ma,           # Y축: 이동평균 값
+#                 mode='lines', 
+#                 name=f'MA{period}', # 범례에 표시될 이름
+#                 line=dict(color=colors[i % len(colors)], width=1) # 선 색상과 너비 설정
+#             ), row=1, col=1)         # 이동평균선을 첫 번째 행(row=1)의 첫 번째 열(col=1)에 추가
     
 #     # 거래량
 #     if show_volume:
+#         # 각 거래일별로 종가와 시가를 비교하여 거래량 색상 결정
 #         colors = ['red' if c >= o else 'blue' 
 #                   for c, o in zip(df['Close'], df['Open'])]
 #         fig.add_trace(go.Bar(
 #             x=df['Date'],
 #             y=df['Volume'],
 #             name='거래량',
-#             marker_color=colors,
-#             showlegend=False
-#         ), row=2, col=1)
+#             marker_color=colors,    # 거래량 막대 색상 설정
+#             showlegend=False        # 범례 표시 여부
+#         ), row=2, col=1)            # 거래량 막대를 두 번째 행(row=2)의 첫 번째 열(col=1)에 추가
     
 #     fig.update_layout(
-#         title=title,
-#         height=600 if show_volume else 450,
-#         xaxis_rangeslider_visible=False,
-#         template='plotly_white'
+#         title=title,                      # 차트 제목
+#         height=600 if show_volume else 450,  # 차트 높이 설정
+#         xaxis_rangeslider_visible=False,     # 하단 슬라이더 숨김
+#         template='plotly_white'              # 템플릿 설정
 #     )
     
 #     return fig
@@ -319,14 +324,15 @@ st.set_page_config(
 #     # 종목 정보 헤더
 #     col1, col2, col3, col4 = st.columns(4)
     
-#     current_price = df['Close'].iloc[-1]
+#     current_price = df['Close'].iloc[-1]    # 최신 종가
 #     prev_price = df['Close'].iloc[-2] if len(df) > 1 else current_price
-#     price_change = current_price - prev_price
-#     price_change_pct = (price_change / prev_price) * 100
+#     price_change = current_price - prev_price   # 가격 변화
+#     price_change_pct = (price_change / prev_price) * 100    # 등락률(%)
     
 #     with col1:
-#         st.metric(label="종목", value=stock_name)
+#         st.metric(label="종목", value=stock_name)   # 종목명 표시
     
+#      # 현재가 + 전일 대비 등락 표시
 #     with col2:
 #         st.metric(
 #             label="현재가",
@@ -334,12 +340,14 @@ st.set_page_config(
 #             delta=f"{price_change:+,.0f} ({price_change_pct:+.2f}%)"
 #         )
     
+#     # 최신 거래량 표시
 #     with col3:
 #         st.metric(
 #             label="거래량",
 #             value=f"{df['Volume'].iloc[-1]:,.0f}"
 #         )
     
+#     # 기간 수익률 표시 (첫 날 대비 마지막 날)
 #     with col4:
 #         period_return = ((df['Close'].iloc[-1] / df['Close'].iloc[0]) - 1) * 100
 #         st.metric(
@@ -359,8 +367,8 @@ st.set_page_config(
 #             fig = create_stock_chart_with_volume(
 #                 df, 
 #                 f"{stock_name} ({stock_code})",
-#                 ma_periods=ma_periods if show_ma else None,
-#                 show_volume=show_volume
+#                 ma_periods=ma_periods if show_ma else None,   # 이동평균 표시 여부
+#                 show_volume=show_volume                       # 거래량 표시 여부
 #             )
 #         else:
 #             # 라인차트
@@ -370,27 +378,33 @@ st.set_page_config(
 #                 mode='lines', name='종가',
 #                 line=dict(color='blue', width=2)
 #             ))
+#             # 이동평균선 추가 옵션
 #             if show_ma:
 #                 add_moving_averages(fig, df.copy(), ma_periods)
+#             # 차트 레이아웃 설정
 #             fig.update_layout(
 #                 title=f"{stock_name} ({stock_code})",
 #                 height=500,
 #                 template='plotly_white'
 #             )
-        
+
+#         # Plotly 차트를 Streamlit에 출력
 #         st.plotly_chart(fig, use_container_width=True)
     
 #     with tab_data:
 #         st.subheader("주가 데이터")
         
-#         # 데이터 표시 (최신 순)
+#         # 최신 날짜가 위로 오도록 정렬
 #         display_df = df.copy()
 #         display_df = display_df.sort_values('Date', ascending=False)
+
+#         # 날짜 형식 변환
 #         display_df['Date'] = display_df['Date'].dt.strftime('%Y-%m-%d')
         
+#         # 데이터프레임 출력
 #         st.dataframe(display_df, use_container_width=True)
         
-#         # 다운로드 버튼
+#         # csv 파일 다운로드 버튼
 #         csv = display_df.to_csv(index=False, encoding='utf-8-sig')
 #         st.download_button(
 #             label="CSV 다운로드",
@@ -402,9 +416,9 @@ st.set_page_config(
 #     with tab_analysis:
 #         st.subheader("기술적 분석")
         
-#         # 기본 통계
+#         # 2열 레이아웃 구성
 #         col1, col2 = st.columns(2)
-        
+#         # 가격 관련 통계
 #         with col1:
 #             st.write("**기간 통계**")
 #             stats = pd.DataFrame({
@@ -419,6 +433,7 @@ st.set_page_config(
 #             })
 #             st.table(stats)
         
+#         # 거래량 관련 통계
 #         with col2:
 #             st.write("**거래량 통계**")
 #             vol_stats = pd.DataFrame({
@@ -435,30 +450,3 @@ st.set_page_config(
 #     st.warning("데이터를 불러올 수 없습니다. 종목코드와 기간을 확인해주세요.")
 
 
-# # ============================================
-# # 학습 정리
-# # ============================================
-# st.header("학습 정리")
-
-# st.markdown('''
-# ### 1. 데이터 로드
-# - `fdr.DataReader()`: OHLCV 데이터
-# - `@st.cache_data`: 캐싱으로 성능 향상
-
-# ### 2. Plotly 차트
-
-# | 차트 | 함수 |
-# |------|------|
-# | 캔들차트 | `go.Candlestick()` |
-# | 라인차트 | `go.Scatter(mode='lines')` |
-# | 바차트 | `go.Bar()` |
-# | 서브플롯 | `make_subplots()` |
-
-# ### 3. 차트 옵션
-# - `increasing_line_color='red'`: 상승 색상
-# - `xaxis_rangeslider_visible=False`: 하단 슬라이더 숨김
-# - `use_container_width=True`: 컨테이너 너비 맞춤
-
-# ---
-# **다음 차시: 36차시 - 경제 지표 모니터링 대시보드**
-# ''')
