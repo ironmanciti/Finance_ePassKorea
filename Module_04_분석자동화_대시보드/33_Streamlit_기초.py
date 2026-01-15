@@ -16,9 +16,9 @@
 # 실행 방법:
 #     streamlit run 33_Streamlit_기초.py
 
-# # ============================================
-# # Import
-# # ============================================
+# ============================================
+# Import
+# ============================================
 # import streamlit as st
 # import pandas as pd
 # import numpy as np
@@ -31,16 +31,16 @@
 # ============================================
 # 설치:
 #     pip install streamlit
-#
+
 # 기본 구조:
 #     # app.py
 #     import streamlit as st
 #     st.title("앱 제목")
 #     st.write("내용")
-#
+
 # 실행:
 #     streamlit run app.py
-#
+
 # 주요 특징:
 # - 코드 저장 시 자동 새로고침
 # - http://localhost:8501에서 실행
