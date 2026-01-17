@@ -1,20 +1,20 @@
-# 35차시: [실습] 주식 분석 대시보드 차트 연동
-# ==========================================
-#
-# 학습 목표:
-# - FinanceDataReader로 실제 주가 데이터 로드
-# - Plotly로 인터랙티브 캔들차트 구현
-# - 이동평균선 및 거래량 차트 추가
-#
-# 학습 내용:
-# 1. FinanceDataReader 데이터 로드
-# 2. Plotly 캔들차트
-# 3. 이동평균선 추가
-# 4. 거래량 서브플롯
-# 5. 전체 대시보드 완성
-#
-# 실행 방법:
-#     streamlit run 35_실습_주식분석_대시보드_차트연동.py
+# # 35차시: [실습] 주식 분석 대시보드 차트 연동
+# # ==========================================
+
+# # 학습 목표:
+# # - FinanceDataReader로 실제 주가 데이터 로드
+# # - Plotly로 인터랙티브 캔들차트 구현
+# # - 이동평균선 및 거래량 차트 추가
+
+# # 학습 내용:
+# # 1. FinanceDataReader 데이터 로드
+# # 2. Plotly 캔들차트
+# # 3. 이동평균선 추가
+# # 4. 거래량 서브플롯
+# # 5. 전체 대시보드 완성
+
+# # 실행 방법:
+# #     streamlit run 35_실습_주식분석_대시보드_차트연동.py
 
 # import streamlit as st
 # import FinanceDataReader as fdr
@@ -307,7 +307,7 @@
 # analyze_clicked = st.sidebar.button(
 #     "분석 시작",
 #     type="primary",
-#     use_container_width=True
+#     width="stretch"
 # )
 
 
@@ -389,7 +389,7 @@
 #             )
 
 #         # Plotly 차트를 Streamlit에 출력
-#         st.plotly_chart(fig, use_container_width=True)
+#         st.plotly_chart(fig, width="stretch")
     
 #     with tab_data:
 #         st.subheader("주가 데이터")
@@ -402,7 +402,7 @@
 #         display_df['Date'] = display_df['Date'].dt.strftime('%Y-%m-%d')
         
 #         # 데이터프레임 출력
-#         st.dataframe(display_df, use_container_width=True)
+#         st.dataframe(display_df, width="stretch")
         
 #         # csv 파일 다운로드 버튼
 #         csv = display_df.to_csv(index=False, encoding='utf-8-sig')

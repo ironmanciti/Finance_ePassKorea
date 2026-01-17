@@ -1,20 +1,20 @@
-# 36차시: [실습] 경제 지표 모니터링 대시보드
-# ==========================================
-#
-# 학습 목표:
-# - FRED API를 Streamlit 대시보드에 연동
-# - 여러 경제 지표를 선택하고 비교하는 UI 구현
-# - 인터랙티브 시계열 차트 구성
-#
-# 학습 내용:
-# 1. FRED API 연동 (13차시 복습)
-# 2. 지표 선택 UI (개별 지표 또는 의미 있는 조합)
-# 3. 시계열 차트
-# 4. 지표 비교 차트
-# 5. 전체 대시보드 완성
-#
-# 실행 방법:
-#     streamlit run 36_실습_경제지표_모니터링_대시보드.py
+# # 36차시: [실습] 경제 지표 모니터링 대시보드
+# # ==========================================
+
+# # 학습 목표:
+# # - FRED API를 Streamlit 대시보드에 연동
+# # - 여러 경제 지표를 선택하고 비교하는 UI 구현
+# # - 인터랙티브 시계열 차트 구성
+
+# # 학습 내용:
+# # 1. FRED API 연동 (13차시 복습)
+# # 2. 지표 선택 UI (개별 지표 또는 의미 있는 조합)
+# # 3. 시계열 차트
+# # 4. 지표 비교 차트
+# # 5. 전체 대시보드 완성
+
+# # 실행 방법:
+# #     streamlit run 36_실습_경제지표_모니터링_대시보드.py
 
 # # ============================================
 # # Import
@@ -325,14 +325,14 @@
 #                         FRED_INDICATORS[code]['category']  # Y축 라벨: 지표 카테고리
 #                     )
 #                     # Plotly 차트를 Streamlit에 출력
-#                     st.plotly_chart(fig, use_container_width=True)
+#                     st.plotly_chart(fig, width='stretch')
         
 #         with tab_compare:
 #             st.subheader("지표 비교")
 #             # 선택된 지표가 2개 이상일 때만 비교 차트 생성
 #             if len(selected_codes) > 1:
 #                 fig = create_comparison_chart(df, normalize=normalize)
-#                 st.plotly_chart(fig, use_container_width=True)
+#                 st.plotly_chart(fig, width='stretch')
                 
 #                 if normalize:
 #                     st.info("정규화: 모든 지표를 시작점=100으로 맞춰 상대적 변화를 비교합니다.")
@@ -346,7 +346,7 @@
 #             # 인덱스(날짜)를 문자열 형식으로 변환
 #             display_df.index = display_df.index.strftime('%Y-%m-%d')
 #             # 데이터프레임을 Streamlit에 출력
-#             st.dataframe(display_df, use_container_width=True)
+#             st.dataframe(display_df, width='stretch')
             
 #             # 다운로드 버튼
 #             csv = display_df.to_csv(encoding='utf-8-sig')
