@@ -10,11 +10,11 @@ def scheduled_task():
     """스케줄링할 작업 (방법 1과 동일)"""
     now = datetime.now()
     time_str = now.strftime('%Y-%m-%d %H:%M:%S')
-    
+
     print("=" * 60)
     print(f"[스케줄된 작업 실행] {time_str}")
     print("=" * 60)
-    
+
 
 if __name__ == '__main__':
     try:
